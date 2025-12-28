@@ -1,10 +1,11 @@
 using System.Reflection;
+using FleetManagement.Application.Common.Interfaces;
 using FleetManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FleetManagement.Infrastructure.Persistence;
 
-public class FleetManagementDbContext : DbContext
+public class FleetManagementDbContext : DbContext, IApplicationDbContext
 {
     public FleetManagementDbContext(DbContextOptions<FleetManagementDbContext> options) : base(options)
     {
