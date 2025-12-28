@@ -31,6 +31,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateTenantCommand>();
 // Add controllers
 builder.Services.AddControllers();
 
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Postgres")!);
+
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -102,6 +106,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHealthChecks("/health");
 app.MapControllers();
 
 await app.RunAsync();

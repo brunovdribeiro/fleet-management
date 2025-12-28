@@ -49,6 +49,7 @@ public class IntegrationTestBase : IAsyncLifetime
                     services.AddDbContext<FleetManagementDbContext>(options =>
                     {
                         options.UseNpgsql(_dbContainer.GetConnectionString());
+                        options.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
                     });
 
                     // Add Mock Authentication
@@ -65,7 +66,8 @@ public class IntegrationTestBase : IAsyncLifetime
         // Ensure database is created and migrations are applied
         using var scope = Factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<FleetManagementDbContext>();
-        await context.Database.MigrateAsync();
+        // Use EnsureCreated to create the schema without migrations for testing
+        await context.Database.EnsureCreatedAsync();
     }
 
     public async Task DisposeAsync()
