@@ -11,6 +11,8 @@ public class FleetManagementDbContext : DbContext
     }
 
     public DbSet<Tenant> Tenants { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<ExternalDriver> ExternalDrivers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
